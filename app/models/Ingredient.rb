@@ -11,6 +11,7 @@ class Ingredient
     end
 
     def self.most_common_allergen
-        #highest # of users allergic to
+        allergies = Allergy.all.map { |a| a.ingredient }
+        allergies.max_by { |a| allergies.count(a) }
     end
 end

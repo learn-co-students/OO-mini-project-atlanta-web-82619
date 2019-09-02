@@ -4,7 +4,6 @@ class User
 
     def initialize(name)
         @name = name
-        @allergies = []
         @@all << self
     end
 
@@ -13,11 +12,15 @@ class User
     end
 
     def recipes
-        RecipeCard.all.select { |recipe| recipe.recipe if recipe.user == self}
+        my_recipes.map { |r| r.recipe }
     end
 
     def add_recipe_card(rating, recipe, date)
         RecipeCard.new(rating, self, recipe, date)
+    end
+
+    def my_recipes
+        RecipeCard.all.select { |card| card.user == self }
     end
 
     def declare_allergy(ingredient)
@@ -25,11 +28,11 @@ class User
     end
 
     def allergens
-        Allergy.all.select { |a| a.ingredient if a.user == self }
+        Allergy.all.select { |a| a if a.user == self }.map { |a| a.ingredient }
     end
 
     def top_three_recipies
-        recipes.sort_by { |card| card.rating }.reverse.first(3)
+        my_recipes.sort_by { |card| card.rating }.reverse.first(3).map { |r| r.recipe }
     end
 
     def most_recent_recipe
@@ -37,6 +40,8 @@ class User
     end
 
     def safe_recipes
-        #recipes without allergens - user to ingredient to recipes
+        Recipe.all.reject do |r|
+            r.ingredients.any? { |i| allergens.include?(i)}
+        end
     end
 end

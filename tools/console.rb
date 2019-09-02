@@ -2,6 +2,7 @@ require_relative '../config/environment.rb'
 
 user1 = User.new("Alex")
 user2 = User.new("Marissa")
+user3 = User.new("Tim")
 
 recipe1 = Recipe.new("Mashed Potatoes")
 recipe2 = Recipe.new("Mac and Cheese")
@@ -18,6 +19,11 @@ i3 = Ingredient.new("Cheese")
 i4 = Ingredient.new("Milk")
 i5 = Ingredient.new("Butter")
 i6 = Ingredient.new("Steak")
+
+allergy1 = user1.declare_allergy("Milk")
+allergy2 = user1.declare_allergy("Cheese")
+allergy3 = user2.declare_allergy("Noodles")
+allergy4 = user3.declare_allergy("Milk")
 
 recipe1.add_ingredients(i1)
 recipe1.add_ingredients(i4)
