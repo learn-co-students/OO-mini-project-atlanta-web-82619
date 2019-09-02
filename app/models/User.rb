@@ -42,18 +42,11 @@ class User
         Allergy.all.select {|allergy| allergy.user == self}.map {|allergen| allergen.ingredient}
     end
 
-    def top_three_recipes 
-        #should return the top three highest rated recipes for this user.
-        my_recipes_sorted = self.recipes.sort {|recipe| recipe.rating}.reverse
-        my_recipes_sorted.take(3)
-    end 
-
-    #OR:
-    #def top_three_recipes
-        #my_rcs = RecipeCard.all.select {|rc| rc.user ==self}
-        #top_3_rcs = my_rcs.max_by(3) {|rc| rc.rating }
-        #top_3_recipes = top_3_rcs.map {|rc| rc.recipe }
-    #end
+    def top_three_recipes
+        my_rec_cards = RecipeCard.all.select {|rc| rc.user == self}
+        top_3_rec_cards = my_rec_cards.max_by(3) {|rc| rc.rating }
+        top_3_recipes = top_3_rec_cards.map {|rc| rc.recipe }
+    end
 
     def most_recent_recipe 
         #should return the recipe most recently added to the user's cookbook.
@@ -64,25 +57,10 @@ class User
 
     def safe_recipes 
         #should return all recipes that do not contain ingredients the user is allergic to
-        safe = []
-        allergens = self.allergens
-        recipes = RecipeCard.all
-        for recipe in recipes
-            for allergen in allergens
-                if !recipe.include?(allergen)
-                    safe << recipe
-                end
-            end
-        end
-        safe
+        #compare two arrays: user.allergens & recipe.ingredients
+        #for each recipe, see if allergy ingredient is included in recipe ingredient
+        Recipe.all.select {|r| (r.ingredients & self.allergens).empty?}
     end
-
-    #OR:
-    #def safe_recipes
-    #compare two arrays: user.allergens & recipe.ingredients
-    #for each recipe, see if allergy ingredient is included in recipe ingredient
-    #Recipe.all.select {|r| (r.ingredients & allergens).empty?}
-    #end
 end
 
 #binding.pry

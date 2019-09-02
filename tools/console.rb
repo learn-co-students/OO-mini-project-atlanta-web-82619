@@ -1,9 +1,10 @@
 require_relative '../config/environment.rb'
+require "date"
 
 #Users - User.new(name)
 #puts "User instances go here:"
 pam = User.new("Pam")
-p pam.name
+
 jim = User.new("Jim")
 andy = User.new("Andy")
 michael = User.new("Michael")
@@ -56,7 +57,20 @@ ri3 = RecipeIngredient.new(pbj, peanut)
 ri4 = RecipeIngredient.new(shrimp_ling, shrimp)
 
 #test methods:
-puts Allergy.all
+Allergy.all
+User.all
+pam.recipes
+pam.add_recipe_card(pbj, 5, Date.today)
+pam.add_recipe_card(lemon_pepper, 4, Date.today)
+pam.add_recipe_card(apple_crisp, 5, Date.today)
+pam.declare_allergy(shrimp)
+#pam.declare_allergy(peanut)
+pam.declare_allergy(wheat)
+pam.top_three_recipes
+p pam.safe_recipes
+Recipe.most_popular
+pbj.allergens
+
 
 
 

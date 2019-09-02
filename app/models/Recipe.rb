@@ -32,15 +32,13 @@ class Recipe
     
     def allergens 
         #should return all of the Ingredients in this recipe that are allergens for Users in our system.
-        self.ingredients.select {|ingredient| Allergy.all.include?(ingredient)}
-        #OR:
-        #allergic_ingredients = Allergy.all.map {|a| a.ingredient}
-        #ingredients.select {|i| allergic_ingredients.include?(i)}
+        allergens = Allergy.all.map {|a| a.ingredient}
+        ingredients.select {|i| allergens.include?(i)}
     end
 
     def add_ingredients(ingredients) 
         #should take an array of ingredient instances as an argument, 
         #and associate each of those ingredients with this recipe
-        ingredients.each {|ingredient| RecipeIngredient.new(self, ingredient)}
+        self.ingredients.each {|ingredient| RecipeIngredient.new(self, ingredient)}
     end
 end
